@@ -8,7 +8,7 @@ import (
 	"syscall"
 )
 
-var commandList = map[string]string{"pause": "p", "up": "\x1b[A", "down": "\x1b[B", "left": "\x1b[D", "right": "\x1b[C"}
+var commandList = map[string]string{"pause": "p", "up": "\x1b[A", "down": "\x1b[B", "left": "\x1b[D", "right": "\x1b[C", "volup": "+", "voldown": "-"}
 
 type Player struct {
 	Playing  bool
