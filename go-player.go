@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -109,6 +110,8 @@ func generateMovies() error {
 			startingCounter = len(pageData.MovieList)
 		}
 	}
+
+	sort.Slice(pageData.MovieList, func(i, j int) bool { return pageData.MovieList[i].Folder < pageData.MovieList[j].Folder })
 
 	fmt.Printf("file import complete: %d files imported\n", len(pageData.MovieList))
 	return nil

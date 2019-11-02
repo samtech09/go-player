@@ -1,12 +1,12 @@
 {{define "content"}}
 <script src=" ../static/js/tablesearch.js"></script>
 
-<h2><a href="/movie?movie={{.CurrentFilm}}">This film</a> is currently playing!</h2>
+<h2><a class="red" href="/movie?movie={{.CurrentFilm}}">This film</a> is currently playing!</h2>
 
 <form onkeyup="searchTable()" style="padding-bottom:10px" align="left" action = "/" method = "post">
 		<input type="text" id="search" placeholder="Type to search">
         <input type="submit" name="refresh" value="Refresh File List" />
-        <a href="/?grp=">Hide Folders</a>
+        <a href="/?grp=f">Show Folders</a>
 </form>
 
 <table id="omx-table">

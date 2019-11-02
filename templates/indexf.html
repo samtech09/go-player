@@ -8,16 +8,13 @@
 </form>
 
 <table id="omx-table">
-{{$prev := ""}}
-{{range $index, $file := .MovieList}}
-    {{if eq $prev .Folder}}
-    <tr><td><small>&nbsp;</small></td><td>
-    {{else}}
-    <tr><td>{{.Folder}}</td><td>
+    {{$prev := ""}}
+    {{range $index, $file := .MovieList}}
+        {{if ne $prev .Folder}}
+        <tr><td class="title">{{.Folder}}</td></tr>
+        {{end}}
+        <tr><td><small><a href="/movie?movie={{.FullFilePath}}">{{.FileName}}</a></small></td></tr>
+        {{$prev = .Folder}}
     {{end}}
-    <small><a href="/movie?movie={{.FullFilePath}}">{{.FileName}}</a></small></td></tr>
-    {{$prev = .Folder}}
-{{end}}
-</tr>
 </table>
 {{end}}

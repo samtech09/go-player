@@ -514,12 +514,13 @@ td,
 th {
   border-bottom: 0.1rem solid #e1e1e1;
   padding: 1.2rem 1.5rem;
+  padding-left: 2rem;
   text-align: left;
 }
 
 td:first-child,
 th:first-child {
-  padding-left: 0;
+  padding-left: 1rem;
 }
 
 td:last-child,
@@ -609,3 +610,15 @@ img {
   border: 0.1rem solid dimgrey;
 }
 /*# sourceMappingURL=milligram.css.map */
+
+td.title {
+  padding-top: 2rem;
+  font-weight: bold;
+  border-bottom: 0.2rem solid #b1b1b1;
+  padding-left: 0;
+}
+
+a.red {
+  font-weight: bold;
+  color: red;
+}
