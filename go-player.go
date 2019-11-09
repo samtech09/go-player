@@ -21,6 +21,7 @@ type ConfigDetails struct {
 	templateDirectory string
 	FilePathList      []string
 	templateFileList  []string
+	Playmode          string
 }
 
 type Movie struct {
@@ -254,6 +255,25 @@ func setupHandler(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(config, w, tmpl)
 }
 
+func playmodeHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl := "playmode.html"
+	err := r.ParseForm()
+	if err != nil {
+		panic(err)
+	}
+	if r.Method == "POST" {
+		if _, ok := r.Form["pmode"]; ok {
+			pm := r.Form["pmode"][0]
+			if pm == "" {
+				panic(fmt.Errorf("Invalid playmode : %s", pm))
+			}
+			config.Playmode = pm
+			tmpl = "index.html"
+		}
+	}
+	renderTemplate(config, w, tmpl)
+}
+
 func refreshCheck(tmpl *string) {
 	if err := refreshList(); err != nil {
 		config.firstStart = true
@@ -303,9 +323,10 @@ func movieHandler(w http.ResponseWriter, r *http.Request) {
 
 func initConfigDetails() {
 	config.firstStart = true
+	config.Playmode = "keyboard"
 	config.templateDirectory = "./templates/"
 	config.templateFileList = append(config.templateFileList,
-		"index.html", "indexf.html", "about.html", "movie.html", "alreadyplaying.html", "alreadyplayingf.html", "setup.html", "nothingfound.html")
+		"index.html", "indexf.html", "about.html", "movie.html", "alreadyplaying.html", "alreadyplayingf.html", "setup.html", "nothingfound.html", "playmode.html")
 }
 
 func initPaths() {
@@ -337,6 +358,7 @@ func main() {
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/about", aboutHandler)
 	http.HandleFunc("/setup", setupHandler)
+	http.HandleFunc("/playmode", playmodeHandler)
 	http.HandleFunc("/movie", movieHandler)
 	http.ListenAndServe(":8080", nil)
 }

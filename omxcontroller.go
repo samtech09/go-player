@@ -23,12 +23,16 @@ func (p *Player) StartFilm(name string) error {
 	p.FilmName = name
 	p.Paused = "Pause"
 	p.Playing = true
-	p.Film = exec.Command("omxplayer", "-o", "hdmi", name)
-	p.Film.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
-	p.PipeIn, err = p.Film.StdinPipe()
-	if err == nil {
-		p.Film.Stdout = os.Stdout
-		err = p.Film.Start()
+	if config.Playmode == "keyboard" {
+		p.Film = exec.Command("lxterminal", "-e", "omxplayer", "-o", "hdmi", name)
+	} else {
+		p.Film = exec.Command("omxplayer", "-o", "hdmi", name)
+		p.Film.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
+		p.PipeIn, err = p.Film.StdinPipe()
+		if err == nil {
+			p.Film.Stdout = os.Stdout
+			err = p.Film.Start()
+		}
 	}
 	return err
 }

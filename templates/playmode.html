@@ -1,0 +1,14 @@
+{{define "content"}}
+<h2>Playmode for omxplayer</h2>
+<p></p>
+<form style="padding-bottom:10px" align="<center></center>" action = "/playmode" method = "post">
+        <p>Current Mode: {{.Playmode}}</p>
+        <h4><input type="radio" name="pmode" value="go-player"> go-player controlled</h4>
+        <p>Pause, stop, vol+/- etc will be controlled by go-player enterface. Keyboard bindings will not work with omxplayer.</p>
+        <h4><input type="radio" name="pmode" value="keyboard"> keyboard controlled</h4>
+        <p>Pause, stop, vol+/- etc will be controlled by omxplayer default keybindings. After starting video, go-player will have no control over it.</p>
+        <input type="submit" name="saveSetup" value="Save Settings" />
+<p></p>
+
+</form>
+{{end}}
