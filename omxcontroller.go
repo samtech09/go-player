@@ -4,6 +4,7 @@ package main
 import (
 	"io"
 	"os"
+	"time"
 	"os/exec"
 	"syscall"
 )
@@ -27,13 +28,20 @@ func (p *Player) StartFilm(name string) error {
 		p.Film = exec.Command("lxterminal", "-e", "omxplayer", "-o", "hdmi", name)
 	} else {
 		p.Film = exec.Command("omxplayer", "-o", "hdmi", name)
-		p.Film.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
-		p.PipeIn, err = p.Film.StdinPipe()
-		if err == nil {
-			p.Film.Stdout = os.Stdout
-			err = p.Film.Start()
-		}
 	}
+	p.Film.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
+	p.PipeIn, err = p.Film.StdinPipe()
+	if err == nil {
+		p.Film.Stdout = os.Stdout
+		err = p.Film.Start()
+	}
+
+	// wait for 2 sec
+	if config.Playmode == "keyboard" {
+		p.Playing = false
+		time.Sleep(3 * time.Second)
+	}
+
 	return err
 }
 

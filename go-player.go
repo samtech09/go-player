@@ -284,6 +284,7 @@ func refreshCheck(tmpl *string) {
 func movieHandler(w http.ResponseWriter, r *http.Request) {
 	command := r.URL.Query().Get("command")
 	film := r.URL.Query().Get("movie")
+	template := "movie.html"
 
 	if pageData.Player.Playing == false {
 		if film == "" {
@@ -297,7 +298,11 @@ func movieHandler(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/", http.StatusFound)
 			return
 		}
-		pageData.CurrentFilm = film
+		if config.Playmode == "go-player" {
+			pageData.CurrentFilm = film
+		} else {
+			template = "index.html"
+		}
 	} else if pageData.Player.Playing && (film == "" || pageData.Player.FilmName == film) {
 		if command == "kill" {
 			err := pageData.Player.EndFilm()
@@ -316,7 +321,7 @@ func movieHandler(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", http.StatusFound)
 		return
 	}
-	renderTemplate(nil, w, "movie.html")
+	renderTemplate(nil, w, template)
 }
 
 // IT ALL STARTS HERE
